@@ -1,7 +1,16 @@
-import { take, takeEvery } from "redux-saga/effects";
+import { take, takeEvery, } from "redux-saga/effects";
+
+async function getPeople() {
+    const request = await fetch('http://swapi.dev/api/people/');
+
+    const data = await request.json();
+
+    return data
+}
 
 export function* workerSaga() {
-    console.log('click from saga');
+    const data = yield getPeople();
+    console.log(data);
 }
 
 export function* watchClickSaga() {
