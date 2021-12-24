@@ -5,8 +5,11 @@ export function* workerSaga() {
 }
 
 export function* watchClickSaga() {
-    yield take('CLICK');
-    console.log('click from saga');
+    while (true) {
+        yield take('CLICK');
+
+        console.log('click from saga');
+    }
 }
 
 export default function* rootSaga() {
