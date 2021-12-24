@@ -1,38 +1,39 @@
-import camelcase from 'camelcase';
-import ENDPOINTS from '../api/endpoints'
+import camelCase from 'camelcase';
+import ENDPOINTS from './endpoints';
 import { API_ACTIONS } from './actions';
 
-const initApiState = () => {
+function initApiState() {
     return Object.keys(ENDPOINTS).reduce((acc, next) => {
         const inner = {
             data: null,
             loading: false,
             error: null
         };
-        acc[camelcase(next)] = inner;
-    }, {})
+
+        acc[camelCase(next)] = inner;
+
+        return acc;
+    }, {});
 }
 
-const initialState = initApiState();
+const INITIAL_STATE = initApiState();
 
-
-const apiReducer = (state = initialState, action) => {
-
+const apiReducer = (state = INITIAL_STATE, action) => {
     if (action.type.startsWith(API_ACTIONS.FETCH_START)) {
-        const inner = camelcase(action.type.replace(API_ACTIONS.FETCH_START, ''));
+        const inner = camelCase(action.type.replace(API_ACTIONS.FETCH_START, ''));
 
         return {
             ...state,
             [inner]: {
                 ...state[inner],
                 loading: true,
-                error: null,
+                error: null
             }
-        }
+        };
     }
 
     if (action.type.startsWith(API_ACTIONS.FETCH_SUCCESS)) {
-        const inner = camelcase(action.type.replace(API_ACTIONS.FETCH_SUCCESS, ''));
+        const inner = camelCase(action.type.replace(API_ACTIONS.FETCH_SUCCESS, ''));
 
         return {
             ...state,
@@ -40,25 +41,25 @@ const apiReducer = (state = initialState, action) => {
                 ...state[inner],
                 data: action.payload,
                 loading: false,
-                error: null,
+                error: null
             }
-        }
+        };
     }
 
     if (action.type.startsWith(API_ACTIONS.FETCH_FAILURE)) {
-        const inner = camelcase(action.type.replace(API_ACTIONS.FETCH_FAILURE, ''));
+        const inner = camelCase(action.type.replace(API_ACTIONS.FETCH_FAILURE, ''));
 
         return {
             ...state,
             [inner]: {
                 ...state[inner],
                 loading: false,
-                error: action.payload,
+                error: action.payload
             }
-        }
+        };
     }
 
-
-    return state
+    return state;
 }
+
 export default apiReducer;
