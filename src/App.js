@@ -6,7 +6,7 @@ function App() {
 
   const store = useSelector(store => store);
   const dispatch = useDispatch();
-
+  console.log('store ↓');
   console.log(store);
 
 

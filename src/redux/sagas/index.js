@@ -1,4 +1,4 @@
-import { take, takeEvery, } from "redux-saga/effects";
+import { put, takeEvery, call } from "redux-saga/effects";
 
 async function getPeople() {
     const request = await fetch('http://swapi.dev/api/people/');
@@ -9,16 +9,14 @@ async function getPeople() {
 }
 
 export function* workerSaga() {
-    const data = yield getPeople();
+    const data = yield call(getPeople);
     console.log(data);
+
+    yield put({ type: "SET_PEOPLE", payload: data.results })
 }
 
 export function* watchClickSaga() {
-    // while (true) {
-    //     yield take('CLICK');
 
-    //     yield workerSaga();
-    // }
     yield takeEvery('CLICK', workerSaga);
 }
 
