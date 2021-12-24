@@ -1,6 +1,8 @@
 import React from 'react';
 
-const index = () => {
+const Jobs = () => {
+
+
     return (
         <div>
             Jobs Component
@@ -8,4 +10,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default Jobs;
