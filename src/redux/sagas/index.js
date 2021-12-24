@@ -16,7 +16,6 @@ export function* loadPeople() {
 
 export function* loadPlanets() {
     const planets = yield call(swapiGet, 'planets');
-    console.log('planets', planets);
 
     yield put({ type: "SET_PLANETS", payload: planets.results })
 }
@@ -27,11 +26,11 @@ export function* workerSaga() {
     yield fork(loadPlanets)
 }
 
-export function* watchClickSaga() {
+export function* watchLoadDataSaga() {
 
     yield takeEvery('LOAD_DATA', workerSaga);
 }
 
 export default function* rootSaga() {
-    yield watchClickSaga();
+    yield fork(watchLoadDataSaga)
 }
