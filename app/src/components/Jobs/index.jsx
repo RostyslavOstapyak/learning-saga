@@ -7,23 +7,6 @@ import { apiActions } from '../../modules/api/actions';
 const Jobs = () => {
 
     const state = useSelector(state => state.api[JOBS])
-    const dispatch = useDispatch();
-
-
-    useEffect(() => {
-        (async () => {
-            try {
-                dispatch(apiActions.fetch(JOBS));
-
-                const data = await api.fetch(JOBS);
-
-                dispatch(apiActions.fetchSuccess(JOBS, data));
-
-            } catch (err) {
-                dispatch(apiActions.fetchError(JOBS, err));
-            }
-        })()
-    }, [])
 
     console.log(state);
 
