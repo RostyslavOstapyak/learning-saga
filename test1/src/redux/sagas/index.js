@@ -1,36 +1,24 @@
-import { put, takeEvery, call, spawn, fork } from "redux-saga/effects";
-
-async function swapiGet(pattern) {
-    const request = await fetch(`http://swapi.dev/api/${pattern}/`);
-
-    const data = await request.json();
-
-    return data
-}
-
-export function* loadPeople() {
-    const people = yield call(swapiGet, 'people');
-
-    yield put({ type: "SET_PEOPLE", payload: people.results })
-}
-
-export function* loadPlanets() {
-    const planets = yield call(swapiGet, 'planets');
-
-    yield put({ type: "SET_PLANETS", payload: planets.results })
-}
-
-
-export function* workerSaga() {
-    yield spawn(loadPeople)
-    yield spawn(loadPlanets)
-}
-
-export function* watchLoadDataSaga() {
-
-    yield takeEvery('LOAD_DATA', workerSaga);
-}
+import { call, spawn, all } from 'redux-saga/effects';
+import loadBasicData from './initialSagas';
+import pageLoaderSaga from './pageLoaderSaga';
 
 export default function* rootSaga() {
-    yield fork(watchLoadDataSaga)
+    const sagas = [
+        loadBasicData,
+        pageLoaderSaga
+    ];
+
+    const retrySagas = yield sagas.map(saga => {
+        return spawn(function* () {
+            while (true) {
+                try {
+                    yield call(saga);
+                    break;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        })
+    })
+    yield all(retrySagas)
 }

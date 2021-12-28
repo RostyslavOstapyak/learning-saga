@@ -12,7 +12,6 @@ function App() {
 
   return (
     <div >
-      <button onClick={() => dispatch({ type: 'LOAD_DATA' })}>kekwww</button>
       kek
     </div>
   );
