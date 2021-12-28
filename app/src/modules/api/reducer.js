@@ -1,5 +1,5 @@
 import camelCase from 'camelcase';
-import ENDPOINTS from './endpoints';
+import ENDPOINTS from 'modules/api/endpoints';
 import { API_ACTIONS } from './actions';
 
 function initApiState() {

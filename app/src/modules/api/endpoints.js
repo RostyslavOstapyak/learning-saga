@@ -8,8 +8,8 @@ const ENDPOINTS = {
     },
     [EMPLOYEES]: {
         uri: '/employees',
-        method: 'GET',
+        method: 'GET'
     }
-}
+};
 
 export default ENDPOINTS;
