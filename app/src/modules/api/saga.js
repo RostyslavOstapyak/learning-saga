@@ -3,14 +3,14 @@ import api from './api';
 import { apiActions, API_ACTIONS } from './actions';
 
 export function* onApiLoad({ payload, type }) {
-    const actionType = type.replace(API_ACTIONS.FETCH_START, '').toLoverCase();
+    const actionType = type.replace(API_ACTIONS.FETCH_START, '').toLowerCase();
 
     try {
         const response = yield api.fetch(actionType, payload);
 
         yield put(apiActions.fetchSuccess(actionType, response));
-    } catch (err) {
-        yield put(apiActions.fetchError(actionType, err));
+    } catch (e) {
+        yield put(apiActions.fetchFailure(actionType, e));
     }
 }
 
@@ -21,5 +21,5 @@ export function* watchApiLoad() {
 export default function* apiRootSaga() {
     yield all([
         watchApiLoad()
-    ])
+    ]);
 }
