@@ -1,4 +1,4 @@
-import { put, takeEvery, call, fork } from "redux-saga/effects";
+import { put, takeEvery, call, spawn, fork } from "redux-saga/effects";
 
 async function swapiGet(pattern) {
     const request = await fetch(`http://swapi.dev/api/${pattern}/`);
@@ -22,8 +22,8 @@ export function* loadPlanets() {
 
 
 export function* workerSaga() {
-    yield fork(loadPeople)
-    yield fork(loadPlanets)
+    yield spawn(loadPeople)
+    yield spawn(loadPlanets)
 }
 
 export function* watchLoadDataSaga() {
